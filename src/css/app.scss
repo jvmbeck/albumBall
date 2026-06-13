@@ -5,14 +5,18 @@
   --header-bg: #1976d2;
   --header-text-color: #ffffff;
   --text-color: #212121;
+  --album-page-bg: #eeff00;
+  --border-color: #cccccc;
 }
 
 .body--dark {
   //--page-bg for dark mode is in the quasar.variables.scss file
   --card-bg: #2c2c2c;
-  --header-bg: #fbd50075;
+  --header-bg: #004283;
   --header-text-color: #ffffff;
   --text-color: #ffffff;
+  --album-page-bg: #c1ec16;
+  --border-color: #666666;
 }
 
 body {

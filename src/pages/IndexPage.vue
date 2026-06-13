@@ -1,17 +1,22 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="column items-center">
-      <img
-        alt="Quasar logo"
-        src="~@/assets/quasar-logo-vertical.svg"
-        style="width: 200px; height: 200px"
-      />
-
-      <q-btn class="q-mt-md" color="primary" to="/second" label="Go to Second Page" no-caps />
+  <q-page class="page">
+    <div>
+      <div class="text-subtitle1 text-weight-light q-mb-md">Ball</div>
+      <div class="text-h2 text-weight-bold">Álbum de Figurinhas</div>
     </div>
+    <StickerAlbum />
   </q-page>
 </template>
 
 <script setup>
-//
+import StickerAlbum from '@/components/StickerAlbum.vue'
 </script>
+
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
