@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import StickerAlbum from '@/components/StickerAlbum.vue'
+import StickerAlbum from '@/components/album/StickerAlbum.vue'
 </script>
 
 <style scoped>

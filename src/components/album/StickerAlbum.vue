@@ -2,11 +2,9 @@
   <div ref="bookContainer" class="book">
     <div class="page cover" data-density="hard">Cover</div>
 
-    <div class="page">Sector A</div>
-
-    <div class="page">Sector B</div>
-
-    <div class="page">Sector C</div>
+    <div v-for="sector in sectors" :key="sector.id" class="page">
+      <SectorPage :sector="sector.title" />
+    </div>
 
     <div class="page cover" data-density="hard">Back Cover</div>
   </div>
@@ -21,9 +19,25 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { PageFlip } from 'page-flip'
+import SectorPage from './pages/SectorPage.vue'
 
 const bookContainer = ref(null)
 let pageFlip = null
+
+const sectors = [
+  {
+    id: 1,
+    title: 'Administração',
+  },
+  {
+    id: 2,
+    title: 'Setor B',
+  },
+  {
+    id: 3,
+    title: 'Setor C',
+  },
+]
 
 onMounted(() => {
   pageFlip = new PageFlip(bookContainer.value, {
