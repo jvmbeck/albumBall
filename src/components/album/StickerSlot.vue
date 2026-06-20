@@ -1,14 +1,13 @@
 <template>
   <article class="sticker-slot" :class="slotClasses">
-    <template v-if="sticker.revealed">
+    <template v-if="showImage">
       <img class="sticker-slot__image" :src="sticker.imageUrl" :alt="sticker.name" />
-      <div class="sticker-slot__label">{{ sticker.name }}</div>
     </template>
 
     <template v-else>
       <div class="sticker-slot__placeholder">
-        <div class="sticker-slot__placeholder-icon">?</div>
-        <div class="sticker-slot__placeholder-text">Figurinha não revelada</div>
+        <div class="sticker-slot__placeholder-icon">{{ placeholderIcon }}</div>
+        <div class="sticker-slot__placeholder-text">{{ placeholderText }}</div>
       </div>
     </template>
   </article>
@@ -24,9 +23,20 @@ const props = defineProps({
   },
 })
 
+const hasImage = computed(() => Boolean(props.sticker.imageUrl))
+
+const showImage = computed(() => props.sticker.revealed && hasImage.value)
+
+const placeholderText = computed(() =>
+  props.sticker.revealed ? 'Figurinha revelada sem imagem' : 'Figurinha não revelada',
+)
+
+const placeholderIcon = computed(() => (props.sticker.revealed ? '!' : '?'))
+
 const slotClasses = computed(() => ({
-  'sticker-slot--revealed': props.sticker.revealed,
-  'sticker-slot--hidden': !props.sticker.revealed,
+  'sticker-slot--revealed': showImage.value,
+  'sticker-slot--missing': props.sticker.revealed && !hasImage.value,
+  'sticker-slot--hidden': !showImage.value,
 }))
 </script>
 
@@ -45,8 +55,7 @@ const slotClasses = computed(() => ({
 .sticker-slot--revealed {
   padding: 0.25rem;
   display: grid;
-  gap: 0.1rem;
-  align-content: start;
+  place-items: center;
 }
 
 .sticker-slot--hidden {
@@ -55,20 +64,18 @@ const slotClasses = computed(() => ({
   background: linear-gradient(180deg, rgba(226, 232, 240, 0.9), rgba(241, 245, 249, 0.9));
 }
 
-.sticker-slot__image {
-  width: 100%;
-  max-height: 90%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 14px;
-  display: block;
+.sticker-slot--missing {
+  border-style: dashed;
+  border-color: rgba(180, 83, 9, 0.45);
+  background: linear-gradient(180deg, rgba(254, 240, 138, 0.5), rgba(255, 251, 235, 0.9));
 }
 
-.sticker-slot__label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-align: center;
-  color: #0f172a;
+.sticker-slot__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  display: block;
 }
 
 .sticker-slot__placeholder {

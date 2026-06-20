@@ -25,40 +25,34 @@
 </template>
 
 <script>
-function createStickerImage(name, color) {
-  const initials = name
-    .split(' ')
-    .filter(Boolean)
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
+const localStickerModules = import.meta.glob('@/assets/stickers/*.png', {
+  eager: true,
+  import: 'default',
+})
 
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-      <defs>
-        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="${color}" />
-          <stop offset="100%" stop-color="#0f172a" />
-        </linearGradient>
-      </defs>
-      <rect width="256" height="256" rx="40" fill="url(#bg)" />
-      <circle cx="192" cy="60" r="30" fill="rgba(255,255,255,0.12)" />
-      <circle cx="70" cy="196" r="44" fill="rgba(255,255,255,0.08)" />
-      <text x="50%" y="48%" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="74" font-weight="800" fill="#ffffff">${initials}</text>
-      <text x="50%" y="74%" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="22" letter-spacing="2" fill="rgba(255,255,255,0.72)">${name}</text>
-    </svg>
-  `
+const localStickerById = Object.fromEntries(
+  Object.entries(localStickerModules).map(([path, imageUrl]) => {
+    const fileName = path.split('/').pop() ?? ''
+    const stickerId = fileName.replace(/\.png$/i, '')
+    return [stickerId, imageUrl]
+  }),
+)
 
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`
+function resolveStickerImage(id, revealed) {
+  if (!revealed) {
+    return ''
+  }
+
+  // Sticker files should live in src/assets/stickers using the sticker id as filename.
+  return localStickerById[id] ?? ''
 }
 
-function createSticker(id, name, revealed, color) {
+function createSticker(id, name, revealed) {
   return {
     id,
     name,
     revealed,
-    imageUrl: revealed ? createStickerImage(name, color) : '',
+    imageUrl: resolveStickerImage(id, revealed),
   }
 }
 
@@ -77,12 +71,12 @@ const defaultPages = [
     layout: '6',
     background: '#fdd835',
     stickers: [
-      createSticker('emp-001', 'Maria', true, '#2563eb'),
-      createSticker('emp-002', 'Lucas', true, '#0f766e'),
-      createSticker('emp-003', 'Ana', false, '#64748b'),
-      createSticker('emp-004', 'João', true, '#d97706'),
-      createSticker('emp-005', 'Paula', false, '#7c3aed'),
-      createSticker('emp-006', 'Rafael', true, '#db2777'),
+      createSticker('emp-01', 'Maria', true),
+      createSticker('emp-02', 'Lucas', true),
+      createSticker('emp-03', 'Ana', false),
+      createSticker('emp-04', 'João', true),
+      createSticker('emp-05', 'Paula', false),
+      createSticker('emp-06', 'Rafael', true),
     ],
   },
   {
@@ -92,15 +86,12 @@ const defaultPages = [
     layout: '9',
     background: '#fdd835',
     stickers: [
-      createSticker('emp-007', 'Bruna', true, '#dc2626'),
-      createSticker('emp-008', 'Diego', false, '#0891b2'),
-      createSticker('emp-009', 'Fernanda', true, '#16a34a'),
-      createSticker('emp-010', 'Gustavo', false, '#9333ea'),
-      createSticker('emp-011', 'Helena', true, '#ca8a04'),
-      createSticker('emp-012', 'Igor', false, '#475569'),
-      createSticker('emp-013', 'Julia', true, '#14b8a6'),
-      createSticker('emp-014', 'Kevin', false, '#f97316'),
-      createSticker('emp-015', 'Larissa', true, '#4f46e5'),
+      createSticker('emp-07', 'Bruna', true),
+      createSticker('emp-08', 'Diego', false),
+      createSticker('emp-09', 'Fernanda', true),
+      createSticker('emp-10', 'Gustavo', false),
+      createSticker('emp-11', 'Helena', true),
+      createSticker('emp-12', 'Igor', false),
     ],
   },
   {
