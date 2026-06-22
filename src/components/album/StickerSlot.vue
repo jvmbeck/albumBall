@@ -88,8 +88,16 @@ function handlePointerDown(event) {
   padding: 0.25rem;
   display: grid;
   place-items: center;
-  cursor: pointer;
+  cursor: zoom-in;
+  border-color: rgba(15, 23, 42, 0.2);
   box-shadow: 0 10px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sticker-slot--revealed:hover {
+  transition: all 0.5s ease;
+
+  box-shadow: 0 14px 18px rgba(0, 0, 0, 0.2);
+  transform: scale(1.15);
 }
 
 .sticker-slot--hidden {
