@@ -18,14 +18,33 @@
       </header>
 
       <div class="album-page__slot-grid" :class="layoutClass">
-        <StickerSlot v-for="sticker in page.stickers" :key="sticker.id" :sticker="sticker" />
+        <StickerSlot
+          v-for="sticker in page.stickers"
+          :key="sticker.id"
+          :sticker="sticker"
+          @preview="handlePreview"
+        />
       </div>
+
+      <q-dialog v-model="dialogOpen" @hide="handleDialogHide">
+        <div class="album-page__preview-dialog">
+          <img
+            v-if="selectedSticker?.imageUrl"
+            class="album-page__preview-image"
+            :src="selectedSticker.imageUrl"
+            :alt="selectedSticker.name"
+          />
+          <p v-if="selectedSticker?.name" class="album-page__preview-name">
+            {{ selectedSticker.name }}
+          </p>
+        </div>
+      </q-dialog>
     </template>
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import StickerSlot from '../StickerSlot.vue'
 
 const props = defineProps({
@@ -52,6 +71,18 @@ const showBrazilFlag = computed(() => props.page.headerFlag === 'brazil')
 const titleSizeClass = computed(() =>
   props.page.titleSize === 'large' ? 'album-page__title--large' : 'album-page__title--normal',
 )
+
+const selectedSticker = ref(null)
+const dialogOpen = ref(false)
+
+function handlePreview(sticker) {
+  selectedSticker.value = sticker
+  dialogOpen.value = true
+}
+
+function handleDialogHide() {
+  selectedSticker.value = null
+}
 </script>
 
 <style scoped>
@@ -196,5 +227,32 @@ const titleSizeClass = computed(() =>
 
 .album-page__slot-grid--custom {
   grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+}
+
+.album-page__preview-dialog {
+  width: min(90vw, 34rem);
+  max-height: 85vh;
+  padding: 0.9rem;
+  border-radius: 16px;
+  background: #ffffff;
+  display: grid;
+  gap: 0.7rem;
+  place-items: center;
+}
+
+.album-page__preview-image {
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+}
+
+.album-page__preview-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #102033;
+  text-align: center;
 }
 </style>
