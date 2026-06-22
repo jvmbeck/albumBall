@@ -89,6 +89,7 @@ function handlePointerDown(event) {
   display: grid;
   place-items: center;
   cursor: pointer;
+  box-shadow: 0 10px 12px rgba(0, 0, 0, 0.15);
 }
 
 .sticker-slot--hidden {
