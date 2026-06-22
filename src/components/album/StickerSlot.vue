@@ -1,5 +1,18 @@
 <template>
-  <article class="sticker-slot" :class="slotClasses">
+  <article
+    class="sticker-slot stf__block"
+    :class="[slotClasses]"
+    :role="showImage ? 'button' : undefined"
+    :tabindex="showImage ? 0 : undefined"
+    @touchstart.stop.prevent="handlePreview"
+    @touchmove.stop.prevent="handlePreview"
+    @touchend.stop.prevent="handlePreview"
+    @pointerdown.capture.stop.prevent="handlePointerDown"
+    @mousedown.capture.stop.prevent
+    @click.stop.prevent="handlePreview"
+    @keydown.enter.stop.prevent="handlePreview"
+    @keydown.space.stop.prevent="handlePreview"
+  >
     <template v-if="showImage">
       <img class="sticker-slot__image" :src="sticker.imageUrl" :alt="sticker.name" />
     </template>
@@ -23,6 +36,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['preview'])
+
 const hasImage = computed(() => Boolean(props.sticker.imageUrl))
 
 const showImage = computed(() => props.sticker.revealed && hasImage.value)
@@ -38,6 +53,23 @@ const slotClasses = computed(() => ({
   'sticker-slot--missing': props.sticker.revealed && !hasImage.value,
   'sticker-slot--hidden': !showImage.value,
 }))
+
+function handlePreview() {
+  if (!showImage.value) {
+    return
+  }
+
+  emit('preview', props.sticker)
+}
+
+function handlePointerDown(event) {
+  if (!showImage.value) {
+    return
+  }
+
+  event.preventDefault()
+  event.stopPropagation()
+}
 </script>
 
 <style scoped>
@@ -56,6 +88,8 @@ const slotClasses = computed(() => ({
   padding: 0.25rem;
   display: grid;
   place-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 12px rgba(0, 0, 0, 0.15);
 }
 
 .sticker-slot--hidden {

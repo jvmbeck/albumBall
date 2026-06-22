@@ -3,7 +3,6 @@
     <section class="album-home__hero">
       <p class="album-home__eyebrow">Ball</p>
       <h1 class="album-home__title">Álbum de Figurinhas</h1>
-      <p class="album-home__subtitle">Prova de conceito: AlbumBook -> AlbumPage -> StickerSlot.</p>
     </section>
 
     <AlbumBook />
@@ -20,7 +19,7 @@ import AlbumBook from '@/components/album/AlbumBook.vue'
   min-height: calc(100vh - 56px);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
   justify-content: flex-start;
   padding: 2rem 1rem 3rem;

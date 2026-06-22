@@ -130,22 +130,21 @@ function goToPreviousPage() {
 function goToNextPage() {
   pageFlip.value?.flipNext()
 }
-
 onMounted(() => {
   if (!bookRef.value) {
     return
   }
 
   pageFlip.value = new PageFlip(bookRef.value, {
-    width: 450,
-    height: 550,
+    width: 500,
+    height: 700,
     size: 'stretch',
     showCover: true,
     usePortrait: true,
     minWidth: 280,
-    maxWidth: 450,
+    maxWidth: 600,
     minHeight: 400,
-    maxHeight: 550,
+    maxHeight: 700,
     maxShadowOpacity: 0.5,
     flippingTime: 600,
     mobileScrollSupport: false,
@@ -173,7 +172,7 @@ onBeforeUnmount(() => {
 }
 
 .album-book__flipbook {
-  width: min(100%, 900px);
+  width: min(100%, 600px);
   margin: 0 auto;
   border-radius: 24px;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
