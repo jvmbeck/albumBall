@@ -4,13 +4,25 @@
       <p class="album-home__eyebrow">Ball</p>
       <h1 class="album-home__title">Álbum de Figurinhas</h1>
     </section>
-
+    <q-btn label="Block/Unblock sticker" @click="blockUnblockSticker"></q-btn>
     <AlbumBook />
   </q-page>
 </template>
 
 <script setup>
 import AlbumBook from '@/components/album/AlbumBook.vue'
+import revealSticker from '@/services/reveal-sticker'
+
+function blockUnblockSticker() {
+  // Logic to block/unblock a sticker
+  revealSticker()
+    .then(() => {
+      console.log('Sticker revealed successfully')
+    })
+    .catch((error) => {
+      console.error('Error revealing sticker:', error)
+    })
+}
 </script>
 
 <style scoped>
